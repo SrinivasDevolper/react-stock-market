@@ -38,13 +38,13 @@ const App = () => {
               width="40"
             />
           </a>
-          <span class="tooltiptext">Linkdin text</span>
+          <span class="tooltiptext">Linkdin Link</span>
         </div>
         <div class="tooltip">
           <a href="https://github.com/SrinivasDevolper" target="_blank">
             <img src={GithubLogo} alt="Github link" width="40" />
           </a>
-          <span class="tooltiptext">Github text</span>
+          <span class="tooltiptext">Github Link</span>
         </div>
       </div>
     </div>
