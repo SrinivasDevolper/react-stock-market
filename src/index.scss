@@ -1,14 +1,8 @@
+@import "./app.scss";
 $dark-color: #19191b;
 $blackish: #28292b;
 $greyish: #bbc2bc;
 
-$breakpoints: (
-  "xs": 0,
-  "sm": 480px,
-  "md": 720px,
-  "lg": 960px,
-  "xl": 1200px,
-);
 @mixin direction($flow) {
   display: flex;
   flex-direction: $flow;
@@ -21,18 +15,14 @@ $breakpoints: (
   color: $coloring;
 }
 
-@mixin md {
-  @media (max-width: map-get($breakpoints, "md")) {
-    @content;
-  }
-}
 body {
   overflow-x: hidden;
 }
 .app {
   min-height: 100vh;
-  background-color: #434345;
-  padding-bottom: 4rem;
+  padding-bottom: 0.5rem;
+
+  background-color: #24ff57;
   .navbar-cont {
     background-color: $blackish;
     padding: 14px 4rem;
@@ -42,9 +32,6 @@ body {
       display: flex;
       align-items: center;
       border-radius: 4px;
-      @media (max-width: 768px) {
-        background-color: red;
-      }
       input {
         background-color: $dark-color;
         border: none;
@@ -60,6 +47,9 @@ body {
         font-size: 23px;
         cursor: pointer;
       }
+      @include media(">=320px", "<=425px") {
+        display: none;
+      }
     }
     .icon-cont {
       .Icon1 {
@@ -73,8 +63,27 @@ body {
         cursor: pointer;
       }
     }
+    @include media(">=320px", "<=425px") {
+      display: flex;
+      justify-content: space-around;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      padding: 10px 4px;
+    }
   }
   .small-card-container-list {
+    .search-cont {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 10px;
+      input {
+        min-width: 200px;
+      }
+      @include media(">425px") {
+        display: none;
+      }
+    }
     ul {
       list-style: none;
       display: grid;
@@ -84,6 +93,9 @@ body {
       margin-right: 20px;
       padding: 20px;
       padding-right: 0px;
+      @include media("<=desktop") {
+        padding-right: 0.2rem;
+      }
       li {
         display: flex;
         justify-content: space-between;
@@ -91,16 +103,27 @@ body {
         padding: 15px;
         border-radius: 3px;
         gap: 8px;
+        @include media(">=320px", "<=425px") {
+          display: flex;
+          flex-direction: column;
+          justify-self: flex-start;
+        }
         .title-cont {
           display: flex;
           align-items: center;
           gap: 10px;
+          @include media(">=320px", "<=425px") {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+          }
           img {
             width: 40px;
             height: 40px;
             background-color: #c4baff;
             border-radius: 50%;
             padding: 8px;
+            object-fit: contain;
           }
           h1 {
             font-size: 19px;
@@ -108,24 +131,54 @@ body {
         }
         .content {
           color: #ff2424;
+          @include media("<=tablet") {
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+          @include media(">phone", "<=425px") {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+          }
           .profit {
             color: #24ff57;
           }
         }
       }
+      @include media("<=desktop", ">768px") {
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+      }
+      @include media(">=320px", "<=768px") {
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        justify-content: center;
+      }
+      @include media(">=320px", "<=425px") {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
   }
   .middle-stock-cont {
     display: flex;
-    // align-items: center;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     gap: 18px;
+    margin-bottom: 1.5rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.3rem;
     .candle-stock-cont {
       flex: 6;
       background-color: $blackish;
       border-radius: 5px;
       padding: 0.7rem;
+      height: 80vh;
+      @include media(">=320px", "<=768px") {
+        height: 120vh;
+      }
       h2 {
         color: #ebecec;
         margin-bottom: 2rem;
@@ -134,13 +187,19 @@ body {
     .table-stock-cont {
       flex: 6;
       padding: 1rem;
+      height: 80vh;
       h1 {
         color: #ebecec;
         font-size: 23px;
       }
       .table-scroll-container {
-        height: 70vh;
-        overflow-y: scroll;
+        height: 65vh;
+        overflow: auto;
+        margin-top: 0.5rem;
+        @include media(">=320px", "<=768px") {
+          height: 80vh;
+          margin-top: 10px;
+        }
         table {
           font-family: arial, sans-serif;
           border-collapse: collapse;
@@ -155,6 +214,13 @@ body {
           }
         }
       }
+      @include media(">=320px", "<=768px") {
+        height: 120vh;
+      }
+    }
+    @include media(">=320px", "<=768px") {
+      display: flex;
+      flex-direction: column;
     }
   }
 }

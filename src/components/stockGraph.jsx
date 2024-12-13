@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ComposedChart,
   XAxis,
@@ -7,85 +7,96 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
-import stockGraph from "../Apis/smallCardLists";
 import StockTable from "./stockTable";
+import useStockCharts from "../Apis/useStockCharts";
+import StockChart from "./StockChart.jsx";
+import PieChart from "./pieChart.jsx";
 
 const StockCandleChart = ({ status, search }) => {
-  const [data, setData] = useState([]);
-  const [table, setTable] = useState([]);
-  useEffect(() => {
-    setData(stockGraph);
-  }, [data]);
-  const handleTable = async () => {
-    const response = await fetch(
-      "https://api.twelvedata.com/symbol_search?symbol=AAPL&apikey=907b7a322df94f81bb4c652c04a6383f"
-    );
-    const data = await response.json();
-    setTable(data.data);
-  };
-  useEffect(() => {
-    handleTable();
-  }, []);
-  //   const [prices, setPrices] = useState([]);
-  //   useEffect(() => {
-  //     setPrices(data);
-  //   }, []);
-  //   useEffect(() => {
-  //     const interval = setInterval(() => {
-  //       setPrices((prevPrices) =>
-  //         prevPrices.map((item) => ({
-  //           ...item,
-  //           high: parseFloat(item.high) + 10,
-  //           loss: parseFloat(item.low) + 10,
-  //         }))
-  //       );
-  //     }, 1000);
-
-  //     // return () => clearInterval(interval);
-  //   }, []);
+  const [data] = useStockCharts();
   return (
-    <div
-      className="middle-stock-cont"
-      style={{ backgroundColor: status ? "#434345" : "#f5f5f5" }}
-    >
+    <>
       <div
-        className="candle-stock-cont"
-        style={{ backgroundColor: status ? "#28292B" : "#D1D1D1" }}
+        className="middle-stock-cont"
+        style={{ backgroundColor: status ? "#434345" : "#f5f5f5" }}
       >
-        <h2>Candlestick Stock Chart</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <ComposedChart data={data}>
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Bar
-              dataKey="high"
-              fill="#24FF50"
-              minPointSize={5}
-              barSize={10}
-              label={{ position: "top" }}
-            />
-            <Bar
-              dataKey="low"
-              fill="#F22424"
-              minPointSize={5}
-              barSize={10}
-              label={{ position: "bottom" }}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+        <div
+          className="candle-stock-cont"
+          style={{
+            backgroundColor: status ? "#28292B" : "#D1D1D1",
+            borderRadius: "5px",
+          }}
+        >
+          <h1
+            style={{ color: status ? "#EBECEC" : "#19191B", fontSize: "22px" }}
+          >
+            Pie Chart Stock Data
+          </h1>
+          <StockChart />
+        </div>
+        <div
+          className="table-stock-cont"
+          style={{
+            backgroundColor: status ? "#28292B" : "#D1D1D1",
+            borderRadius: "5px",
+          }}
+        >
+          <h1 style={{ color: status ? "#EBECEC" : "#19191B" }}>
+            Stock Data Table
+          </h1>
+          <StockTable status={status} search={search} />
+        </div>
       </div>
       <div
-        className="table-stock-cont"
-        style={{
-          backgroundColor: status ? "#28292B" : "#D1D1D1",
-          borderRadius: "5px",
-        }}
+        className="middle-stock-cont"
+        style={{ backgroundColor: status ? "#434345" : "#f5f5f5" }}
       >
-        <h1>Stock Data Table</h1>
-        <StockTable status={status} search={search} />
+        <div
+          className="candle-stock-cont"
+          style={{
+            backgroundColor: status ? "#28292B" : "#D1D1D1",
+          }}
+        >
+          <h2 style={{ color: status ? "#EBECEC" : "#19191B" }}>
+            Bargraph Stock Chart
+          </h2>
+          <ResponsiveContainer width="100%" height="80%">
+            <ComposedChart data={data}>
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Bar
+                dataKey="high"
+                fill="#24FF50"
+                minPointSize={5}
+                barSize={10}
+                label={{ position: "top" }}
+              />
+              <Bar
+                dataKey="low"
+                fill="#F22424"
+                height="100%"
+                minPointSize={5}
+                barSize={10}
+                label={{ position: "bottom" }}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+        <div
+          className="table-stock-cont"
+          style={{
+            backgroundColor: status ? "#28292B" : "#D1D1D1",
+            borderRadius: "5px",
+          }}
+        >
+          <h1 style={{ color: status ? "#EBECEC" : "#19191B" }}>
+            Pie Chart Stock Data
+          </h1>
+          <PieChart />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

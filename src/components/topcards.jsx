@@ -4,13 +4,14 @@ import smallCardList from "../Apis/smallCardLists";
 import { BiSolidUpArrowCircle } from "react-icons/bi";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import { SlGraph } from "react-icons/sl";
+import { IoIosSearch } from "react-icons/io";
 
 const apiConstants = {
   initial: "INITIAL",
   success: "SUCCESS",
   progress: "PROGRESS",
 };
-const TopCards = ({ status }) => {
+const TopCards = ({ search, setSearch, status }) => {
   const [liveStatusData, setLiveStatusData] = useState({
     liveData: [],
     switchStatus: apiConstants.initial,
@@ -109,7 +110,14 @@ const TopCards = ({ status }) => {
     return () => clearInterval(interval);
   }, []);
   const progress = () => (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "200px",
+      }}
+    >
       <Audio
         height="80"
         width="80"
@@ -123,58 +131,86 @@ const TopCards = ({ status }) => {
   );
   const success = () => {
     return (
-      <ul>
-        {prices.map((eachData, index) => (
-          <li
-            key={eachData.symbol}
+      <>
+        <div
+          className="search-cont"
+          style={{
+            backgroundColor: status ? "#434345" : "#f7f8fa",
+            textAlign: "right",
+            paddingTop: "15px",
+            marginRight: "1.2rem",
+          }}
+        >
+          <input
+            type="search"
+            alt="search"
+            search={search}
             style={{
-              backgroundColor: status ? "#28292b" : "#d1d1d1",
+              backgroundColor: status ? "#19191b" : "#E8E8E8",
+              color: status ? "#F7F8FA" : "#19191b",
+              padding: "4px",
+              border: "none",
+              borderRadius: "3px",
             }}
-          >
-            <div className="title-cont">
-              <img src={eachData.imageUrl} alt={eachData.symbol} />
-              <div>
-                <h1
-                  style={{
-                    color: status ? "#ebecec" : "#252626",
-                  }}
-                >
-                  {eachData.symbol}
-                </h1>
-                <p style={{ color: status ? "#ebecec" : "#252626" }}>USD</p>
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <IoIosSearch
+            className="Icon"
+            style={{ color: "#BBC2BC", fontSize: "18px" }}
+          />
+        </div>
+        <ul>
+          {prices.map((eachData, index) => (
+            <li
+              key={eachData.symbol}
+              style={{
+                backgroundColor: status ? "#28292b" : "#d1d1d1",
+              }}
+            >
+              <div className="title-cont">
+                <img src={eachData.imageUrl} alt={eachData.symbol} />
+                <div>
+                  <h1
+                    style={{
+                      color: status ? "#ebecec" : "#252626",
+                    }}
+                  >
+                    {eachData.symbol}
+                  </h1>
+                  <p style={{ color: status ? "#ebecec" : "#252626" }}>USD</p>
+                </div>
               </div>
-            </div>
-            <div>
-              <SlGraph
-                style={{
-                  color: index % 2 === 0 ? "#13e800" : "#e80000",
-                  fontSize: "3rem",
-                  transform: index % 2 === 0 ? "scaleX(1)" : "scaleX(-1)",
-                }}
-              />
-            </div>
-            <div className="content">
-              <h2
-                className="profit"
-                style={{ color: status ? "#24ff57" : "#00E03C" }}
-              >
-                {eachData.profit}
-                <BiSolidUpArrowCircle style={{ color: "#00e03c" }} />
-              </h2>
-              <h2>
-                -{eachData.loss}
-                <FaArrowAltCircleDown style={{ color: "#d41908" }} />
-              </h2>
-            </div>
-          </li>
-        ))}
-      </ul>
+              <div>
+                <SlGraph
+                  style={{
+                    color: index % 2 === 0 ? "#13e800" : "#e80000",
+                    fontSize: "3rem",
+                    transform: index % 2 === 0 ? "scaleX(1)" : "scaleX(-1)",
+                  }}
+                />
+              </div>
+              <div className="content">
+                <h2
+                  className="profit"
+                  style={{ color: status ? "#24ff57" : "#00E03C" }}
+                >
+                  {eachData.profit}
+                  <BiSolidUpArrowCircle style={{ color: "#00e03c" }} />
+                </h2>
+                <h2>
+                  -{eachData.loss}
+                  <FaArrowAltCircleDown style={{ color: "#d41908" }} />
+                </h2>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
     );
   };
   const switchCaseData = () => {
     switch (liveStatusData.switchStatus) {
       case "PROGRESS":
-        console.log("PROGRESS...");
         return progress();
         break;
       case "SUCCESS":

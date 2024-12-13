@@ -57,10 +57,12 @@ const StockTable = ({ status, search }) => {
         <table>
           <thead>
             <tr>
-              <th>Symbol</th>
-              <th>Name</th>
-              <th>Country</th>
-              <th>Currency</th>
+              <th style={{ color: status ? "#EBECEC" : "#19191B" }}>Symbol</th>
+              <th style={{ color: status ? "#EBECEC" : "#19191B" }}>Name</th>
+              <th style={{ color: status ? "#EBECEC" : "#19191B" }}>Country</th>
+              <th style={{ color: status ? "#EBECEC" : "#19191B" }}>
+                Currency
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -77,10 +79,18 @@ const StockTable = ({ status, search }) => {
                     : "#E8E8E8",
                 }}
               >
-                <td>{eachStock.symbol}</td>
-                <td>{eachStock.instrumentName}</td>
-                <td>{eachStock.country}</td>
-                <td>{eachStock.currency}</td>
+                <td style={{ color: status ? "#EBECEC" : "#19191B" }}>
+                  {eachStock.symbol}
+                </td>
+                <td style={{ color: status ? "#EBECEC" : "#19191B" }}>
+                  {eachStock.instrumentName}
+                </td>
+                <td style={{ color: status ? "#EBECEC" : "#19191B" }}>
+                  {eachStock.country}
+                </td>
+                <td style={{ color: status ? "#EBECEC" : "#19191B" }}>
+                  {eachStock.currency}
+                </td>
               </tr>
             ))}
           </tbody>
